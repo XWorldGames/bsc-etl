@@ -9,3 +9,8 @@ def logging_basic_config(filename=None):
         logging.basicConfig(level=logging.INFO, format=format)
 
     logging.getLogger('ethereum_dasm.evmdasm').setLevel(logging.ERROR)
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.WARN)
+    logging.getLogger('sqlalchemy.pool').setLevel(logging.WARN)
+    logging.getLogger('sqlalchemy.dialects').setLevel(logging.WARN)
+    logging.getLogger('sqlalchemy.orm').setLevel(logging.WARN)
+    logging.getLogger('ProgressLogger').setLevel(logging.WARN)

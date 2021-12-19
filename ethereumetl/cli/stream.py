@@ -41,7 +41,7 @@ from ethereumetl.thread_local_proxy import ThreadLocalProxy
                    'or Postgres connection url e.g. postgresql+pg8000://postgres:admin@127.0.0.1:5432/ethereum. '
                    'If not specified will print to console')
 @click.option('-s', '--start-block', default=None, show_default=True, type=int, help='Start block')
-@click.option('-e', '--entity-types', default=','.join(EntityType.ALL_FOR_INFURA), show_default=True, type=str,
+@click.option('-e', '--entity-types', default=','.join(EntityType.ALL_FOR_STREAMING), show_default=True, type=str,
               help='The list of entity types to export.')
 @click.option('--period-seconds', default=10, show_default=True, type=int, help='How many seconds to sleep between syncs')
 @click.option('-b', '--batch-size', default=10, show_default=True, type=int, help='How many blocks to batch in single request')
@@ -100,9 +100,9 @@ def parse_entity_types(entity_types):
 def validate_entity_types(entity_types, output):
     from ethereumetl.streaming.item_exporter_creator import determine_item_exporter_type, ItemExporterType
     item_exporter_type = determine_item_exporter_type(output)
-    if item_exporter_type == ItemExporterType.POSTGRES \
-            and (EntityType.CONTRACT in entity_types or EntityType.TOKEN in entity_types):
-        raise ValueError('contract and token are not yet supported entity types for postgres item exporter.')
+    # if item_exporter_type == ItemExporterType.POSTGRES \
+    #         and (EntityType.CONTRACT in entity_types or EntityType.TOKEN in entity_types):
+    #     raise ValueError('contract and token are not yet supported entity types for postgres item exporter.')
 
 
 def pick_random_provider_uri(provider_uri):

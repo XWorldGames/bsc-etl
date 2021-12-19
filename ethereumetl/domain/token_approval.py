@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2020 Evgeny Medvedev, evge.medvedev@gmail.com
+# Copyright (c) 2018 Evgeny Medvedev, evge.medvedev@gmail.com
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from binascii import unhexlify
-from blockchainetl.jobs.exporters.converters.simple_item_converter import SimpleItemConverter
 
-
-class BigBinaryItemConverter(SimpleItemConverter):
-
-    def convert_field(self, key, value):
-        if isinstance(value, str) and value.startswith('0x'):
-            return to_big_binary(value)
-        else:
-            return value
-
-
-def to_big_binary(value):
-    return unhexlify(value[2:])
+class EthTokenApproval(object):
+    def __init__(self):
+        self.token_address = None
+        self.from_address = None
+        self.to_address = None
+        self.value = None
+        self.transaction_hash = None
+        self.log_index = None
+        self.block_number = None

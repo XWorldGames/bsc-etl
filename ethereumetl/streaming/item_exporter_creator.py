@@ -32,7 +32,7 @@ def create_item_exporter(output):
             'transaction': output + '.transactions',
             'log': output + '.logs',
             'token_transfer': output + '.token_transfers',
-            'trace': output + '.traces',
+            'token_approval': output + '.token_approvals',
             'contract': output + '.contracts',
             'token': output + '.tokens',
         })
@@ -41,10 +41,12 @@ def create_item_exporter(output):
         from blockchainetl.streaming.postgres_utils import create_insert_statement_for_table
         from blockchainetl.jobs.exporters.converters.unix_timestamp_item_converter import UnixTimestampItemConverter
         from blockchainetl.jobs.exporters.converters.int_to_decimal_item_converter import IntToDecimalItemConverter
-        from blockchainetl.jobs.exporters.converters.big_binary_item_converter import BigBinaryItemConverter
+        from blockchainetl.jobs.exporters.converters.hex_to_bytes_item_converter import HexToBytesItemConverter
         from blockchainetl.jobs.exporters.converters.list_field_item_converter import ListFieldItemConverter
-        from ethereumetl.streaming.postgres_tables import BLOCKS, TRANSACTIONS, LOGS, TOKEN_TRANSFERS, TRACES,\
-            TOKENS, CONTRACTS
+        from ethereumetl.streaming.postgres_tables import BLOCKS, TRANSACTIONS, LOGS, TOKENS, CONTRACTS, \
+            TOKEN_TRANSFERS, TOKEN_APPROVALS
+        from blockchainetl.jobs.exporters.converters.hex_list_field_to_bytes_list_field_item_converter import \
+            HexListFieldToBytesListFieldItemConverter
 
         item_exporter = PostgresItemExporter(
             output, item_type_to_insert_stmt_mapping={
@@ -52,12 +54,13 @@ def create_item_exporter(output):
                 'transaction': create_insert_statement_for_table(TRANSACTIONS),
                 'log': create_insert_statement_for_table(LOGS),
                 'token_transfer': create_insert_statement_for_table(TOKEN_TRANSFERS),
-                'trace': create_insert_statement_for_table(TRACES),
-                # 'tokens': create_insert_statement_for_table(TOKENS),
-                # 'contracts': create_insert_statement_for_table(CONTRACTS),
+                'token_approval': create_insert_statement_for_table(TOKEN_APPROVALS),
+                'token': create_insert_statement_for_table(TOKENS),
+                'contract': create_insert_statement_for_table(CONTRACTS),
             },
-            converters=[BigBinaryItemConverter(), UnixTimestampItemConverter(), IntToDecimalItemConverter(),
-                        ListFieldItemConverter('topics', 'topic', fill=4)])
+            converters=[HexToBytesItemConverter(), UnixTimestampItemConverter(), IntToDecimalItemConverter(),
+                        ListFieldItemConverter('topics', 'topic', fill=4),
+                        HexListFieldToBytesListFieldItemConverter('function_sighashes')])
     elif item_exporter_type == ItemExporterType.CONSOLE:
         item_exporter = ConsoleItemExporter()
     else:

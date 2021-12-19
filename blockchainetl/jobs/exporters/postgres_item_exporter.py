@@ -36,6 +36,8 @@ class PostgresItemExporter:
         self.print_sql = print_sql
 
         self.engine = self.create_engine()
+        self.engine.echo = False
+        self.engine.echo_pool = False
 
     def open(self):
         pass

@@ -141,6 +141,30 @@ def enrich_token_transfers(blocks, token_transfers):
     return result
 
 
+def enrich_token_approvals(blocks, token_approvals):
+    result = list(join(
+        token_approvals, blocks, ('block_number', 'number'),
+        [
+            'type',
+            'token_address',
+            'from_address',
+            'to_address',
+            'value',
+            'transaction_hash',
+            'log_index',
+            'block_number'
+        ],
+        [
+            ('timestamp', 'block_timestamp'),
+            ('hash', 'block_hash'),
+        ]))
+
+    if len(result) != len(token_approvals):
+        raise ValueError('The number of token approvals is wrong ' + str(result))
+
+    return result
+
+
 def enrich_traces(blocks, traces):
     result = list(join(
         traces, blocks, ('block_number', 'number'),
@@ -209,7 +233,8 @@ def enrich_tokens(blocks, tokens):
             'name',
             'decimals',
             'total_supply',
-            'block_number'
+            'block_number',
+            'is_erc721'
         ],
         [
             ('timestamp', 'block_timestamp'),

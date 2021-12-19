@@ -21,24 +21,15 @@
 # SOFTWARE.
 
 
-from ethereumetl.jobs.export_tokens_job import ExportTokensJob
-
-
-class ExtractTokensJob(ExportTokensJob):
-    def __init__(self, web3, item_exporter, contracts_iterable, max_workers):
-        super().__init__(web3, item_exporter, [], max_workers)
-        self.contracts_iterable = contracts_iterable
-
-    def _export(self):
-        self.batch_work_executor.execute(self.contracts_iterable, self._export_tokens_from_contracts)
-
-    def _export_tokens_from_contracts(self, contracts):
-        [self._export_token_from_contract(contract) for contract in contracts if contract.get('is_erc20')
-         or contract.get('is_erc721')]
-
-    def _export_token_from_contract(self, contract):
-        token = self.token_service.get_token(contract['address'])
-        token.block_number = contract['block_number']
-        token.is_erc721 = contract['is_erc721']
-        token_dict = self.token_mapper.token_to_dict(token)
-        self.item_exporter.export_item(token_dict)
+class EthTokenApprovalMapper(object):
+    def token_approval_to_dict(self, token_approval):
+        return {
+            'type': 'token_approval',
+            'token_address': token_approval.token_address,
+            'from_address': token_approval.from_address,
+            'to_address': token_approval.to_address,
+            'value': token_approval.value,
+            'transaction_hash': token_approval.transaction_hash,
+            'log_index': token_approval.log_index,
+            'block_number': token_approval.block_number,
+        }

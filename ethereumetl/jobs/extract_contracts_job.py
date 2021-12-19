@@ -25,20 +25,18 @@ from ethereumetl.domain.contract import EthContract
 from ethereumetl.executors.batch_work_executor import BatchWorkExecutor
 from blockchainetl.jobs.base_job import BaseJob
 from ethereumetl.mappers.contract_mapper import EthContractMapper
-
 from ethereumetl.service.eth_contract_service import EthContractService
-from ethereumetl.utils import to_int_or_none
 
 
 # Extract contracts
 class ExtractContractsJob(BaseJob):
     def __init__(
             self,
-            traces_iterable,
+            enriched_transactions_iterable,
             batch_size,
             max_workers,
             item_exporter):
-        self.traces_iterable = traces_iterable
+        self.transactions_iterable = enriched_transactions_iterable
 
         self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
         self.item_exporter = item_exporter
@@ -50,24 +48,22 @@ class ExtractContractsJob(BaseJob):
         self.item_exporter.open()
 
     def _export(self):
-        self.batch_work_executor.execute(self.traces_iterable, self._extract_contracts)
+        self.batch_work_executor.execute(self.transactions_iterable, self._extract_contracts)
 
-    def _extract_contracts(self, traces):
-        for trace in traces:
-            trace['status'] = to_int_or_none(trace.get('status'))
-            trace['block_number'] = to_int_or_none(trace.get('block_number'))
-
-        contract_creation_traces = [trace for trace in traces
-                                    if trace.get('trace_type') == 'create' and trace.get('to_address') is not None
-                                    and len(trace.get('to_address')) > 0 and trace.get('status') == 1]
+    def _extract_contracts(self, transactions):
+        contract_creation_transactions = [transaction for transaction in transactions
+                                          if transaction.get('to_address') is None
+                                          and transaction.get('receipt_contract_address') is not None
+                                          and len(transaction.get('receipt_contract_address')) > 0
+                                          and transaction.get('receipt_status') == 1]
 
         contracts = []
-        for trace in contract_creation_traces:
+        for transaction in contract_creation_transactions:
             contract = EthContract()
-            contract.address = trace.get('to_address')
-            bytecode = trace.get('output')
+            contract.address = transaction.get('receipt_contract_address')
+            bytecode = transaction.get('input')
             contract.bytecode = bytecode
-            contract.block_number = trace.get('block_number')
+            contract.block_number = transaction.get('block_number')
 
             function_sighashes = self.contract_service.get_function_sighashes(bytecode)
 

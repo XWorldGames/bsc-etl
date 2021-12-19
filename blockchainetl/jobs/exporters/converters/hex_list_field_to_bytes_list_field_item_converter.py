@@ -20,16 +20,21 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from decimal import Decimal
-
+from binascii import unhexlify
 from blockchainetl.jobs.exporters.converters.simple_item_converter import SimpleItemConverter
 
-# Large ints are not handled correctly by pg8000 so we use Decimal instead:
-# https://github.com/mfenniak/pg8000/blob/412eace074514ada824e7a102765e37e2cda8eaa/pg8000/core.py#L1703
-class IntToDecimalItemConverter(SimpleItemConverter):
+
+class HexListFieldToBytesListFieldItemConverter(SimpleItemConverter):
+
+    def __init__(self, field):
+        self.field = field
 
     def convert_field(self, key, value):
-        if isinstance(value, int):
-            return Decimal(value)
+        if key == self.field and isinstance(value, list):
+            return to_bytes_list(value)
         else:
             return value
+
+
+def to_bytes_list(value):
+    return [unhexlify(item[2:]) for item in value]

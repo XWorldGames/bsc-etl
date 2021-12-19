@@ -5,5 +5,5 @@ create table tokens
     symbol text,
     decimals smallint,
     total_supply numeric(78),
-    function_sighashes bytea[]
+    is_erc721 bool
 );

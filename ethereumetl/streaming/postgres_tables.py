@@ -20,7 +20,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from sqlalchemy import Table, Column, Integer, BigInteger, LargeBinary, String, Numeric, MetaData, TIMESTAMP, Boolean
+from sqlalchemy import Table, Column, Integer, BigInteger, LargeBinary, String, Numeric, MetaData, TIMESTAMP, Boolean, ARRAY
 
 metadata = MetaData()
 
@@ -103,6 +103,19 @@ TOKEN_TRANSFERS = Table(
     Column('block_hash', LargeBinary),
 )
 
+TOKEN_APPROVALS = Table(
+    'token_approvals', metadata,
+    Column('token_address', LargeBinary),
+    Column('from_address', LargeBinary),
+    Column('to_address', LargeBinary),
+    Column('value', Numeric(78)),
+    Column('transaction_hash', LargeBinary, primary_key=True),
+    Column('log_index', BigInteger, primary_key=True),
+    Column('block_timestamp', TIMESTAMP),
+    Column('block_number', BigInteger),
+    Column('block_hash', LargeBinary),
+)
+
 TRACES = Table(
     'traces', metadata,
     Column('transaction_hash', LargeBinary),
@@ -134,14 +147,14 @@ TOKENS = Table(
     Column('symbol', String),
     Column('decimals', Integer),
     Column('total_supply', Numeric(78)),
-    Column('function_sighashes', LargeBinary),
+    Column('is_erc721', Boolean),
 )
 
 CONTRACTS = Table(
     'contracts', metadata,
     Column('address', LargeBinary, primary_key=True),
     Column('bytecode', LargeBinary),
-    Column('function_sighashes', LargeBinary),
+    Column('function_sighashes', ARRAY(LargeBinary)),
     Column('is_erc20', Boolean),
     Column('is_erc721', Boolean),
     Column('block_number', BigInteger),
