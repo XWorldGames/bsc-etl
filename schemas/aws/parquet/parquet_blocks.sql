@@ -20,6 +20,6 @@ CREATE EXTERNAL TABLE IF NOT EXISTS parquet_blocks (
 )
 PARTITIONED BY (start_block BIGINT, end_block BIGINT)
 STORED AS PARQUET
-LOCATION 's3://<your_bucket>/ethereumetl/parquet/blocks';
+LOCATION 's3://<your_bucket>/bscetl/parquet/blocks';
 
 MSCK REPAIR TABLE parquet_blocks;

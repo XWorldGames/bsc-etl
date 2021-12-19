@@ -6,7 +6,7 @@
 
 ```bash
 > cd output
-> aws s3 sync . s3://<your_bucket>/ethereumetl/export --region ap-southeast-1
+> aws s3 sync . s3://<your_bucket>/bscetl/export --region ap-southeast-1
 ```
 
 - Sign in to Athena https://console.aws.amazon.com/athena/home

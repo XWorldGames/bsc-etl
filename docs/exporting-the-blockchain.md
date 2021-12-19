@@ -22,8 +22,8 @@ and token details; for those you need to wait until the full sync). Note that yo
 1. Export all:
 
 ```bash
-> ethereumetl export_all --help
-> ethereumetl export_all -s 0 -e 5999999 -b 100000 -p file://$HOME/Library/Ethereum/geth.ipc -o output
+> bscetl export_all --help
+> bscetl export_all -s 0 -e 5999999 -b 100000 -p file://$HOME/Library/Ethereum/geth.ipc -o output
 ```
     
 In case `ethereumetl` command is not available in PATH, use `python3 -m ethereumetl` instead.

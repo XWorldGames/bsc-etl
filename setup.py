@@ -10,14 +10,14 @@ def read(fname):
 long_description = read('README.md') if os.path.isfile("README.md") else ""
 
 setup(
-    name='ethereum-etl',
+    name='bsc-etl',
     version='1.7.4',
     author='Evgeny Medvedev',
     author_email='evge.medvedev@gmail.com',
-    description='Tools for exporting Ethereum blockchain data to CSV or JSON',
+    description='Tools for exporting BSC blockchain data to CSV or JSON',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/blockchain-etl/ethereum-etl',
+    url='https://github.com/XWorldGames/bsc-etl',
     packages=find_packages(exclude=['schemas', 'tests']),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -58,12 +58,11 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'ethereumetl=ethereumetl.cli:cli',
+            'bscetl=bscetl.cli:cli',
         ],
     },
     project_urls={
-        'Bug Reports': 'https://github.com/blockchain-etl/ethereum-etl/issues',
-        'Chat': 'https://gitter.im/ethereum-etl/Lobby',
-        'Source': 'https://github.com/blockchain-etl/ethereum-etl',
+        'Bug Reports': 'https://github.com/XWorldGames/bsc-etl/issues',
+        'Source': 'https://github.com/XWorldGames/bsc-etl',
     },
 )

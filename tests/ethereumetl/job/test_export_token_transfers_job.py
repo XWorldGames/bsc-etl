@@ -25,9 +25,9 @@ import pytest
 from web3 import Web3
 
 import tests.resources
-from ethereumetl.jobs.export_token_transfers_job import ExportTokenTransfersJob
-from ethereumetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
-from ethereumetl.thread_local_proxy import ThreadLocalProxy
+from bscetl.jobs.export_token_transfers_job import ExportTokenTransfersJob
+from bscetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
+from bscetl.thread_local_proxy import ThreadLocalProxy
 from tests.ethereumetl.job.helpers import get_web3_provider
 from tests.helpers import compare_lines_ignore_order, read_file
 

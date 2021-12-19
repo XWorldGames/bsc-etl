@@ -13,6 +13,6 @@ CREATE EXTERNAL TABLE IF NOT EXISTS parquet_transactions (
 )
 PARTITIONED BY (start_block BIGINT, end_block BIGINT)
 STORED AS PARQUET
-LOCATION 's3://<your_bucket>/ethereumetl/parquet/transactions';
+LOCATION 's3://<your_bucket>/bscetl/parquet/transactions';
 
 MSCK REPAIR TABLE parquet_transactions;

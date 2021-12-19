@@ -21,8 +21,8 @@
 # SOFTWARE.
 
 
-from ethereumetl.domain.receipt_log import EthReceiptLog
-from ethereumetl.service.token_transfer_extractor import EthTokenTransferExtractor
+from bscetl.domain.receipt_log import EthReceiptLog
+from bscetl.service.token_transfer_extractor import EthTokenTransferExtractor
 
 token_transfer_extractor = EthTokenTransferExtractor()
 

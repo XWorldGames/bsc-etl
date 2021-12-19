@@ -9,6 +9,6 @@ CREATE EXTERNAL TABLE IF NOT EXISTS parquet_token_transfers (
 )
 PARTITIONED BY (start_block BIGINT, end_block BIGINT)
 STORED AS PARQUET
-LOCATION 's3://<your_bucket>/ethereumetl/parquet/token_transfers';
+LOCATION 's3://<your_bucket>/bscetl/parquet/token_transfers';
 
 MSCK REPAIR TABLE parquet_token_transfers;

@@ -15,7 +15,7 @@ WITH SERDEPROPERTIES (
     'escape.delim' = '\\'
 )
 STORED AS TEXTFILE
-LOCATION 's3://<your_bucket>/ethereumetl/export/token_transfers'
+LOCATION 's3://<your_bucket>/bscetl/export/token_transfers'
 TBLPROPERTIES (
   'skip.header.line.count' = '1'
 );

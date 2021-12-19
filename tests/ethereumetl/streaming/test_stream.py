@@ -23,11 +23,11 @@
 import os
 
 import pytest
-from ethereumetl.streaming.eth_streamer_adapter import EthStreamerAdapter
-from ethereumetl.thread_local_proxy import ThreadLocalProxy
+from bscetl.streaming.eth_streamer_adapter import EthStreamerAdapter
+from bscetl.thread_local_proxy import ThreadLocalProxy
 
 import tests.resources
-from ethereumetl.enumeration.entity_type import EntityType
+from bscetl.enumeration.entity_type import EntityType
 from blockchainetl.jobs.exporters.composite_item_exporter import CompositeItemExporter
 from blockchainetl.streaming.streamer import Streamer
 from tests.ethereumetl.job.helpers import get_web3_provider

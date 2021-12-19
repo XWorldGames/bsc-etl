@@ -26,8 +26,8 @@ import io
 import pytest
 
 import tests.resources
-from ethereumetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
-from ethereumetl.jobs.extract_token_transfers_job import ExtractTokenTransfersJob
+from bscetl.jobs.exporters.token_transfers_item_exporter import token_transfers_item_exporter
+from bscetl.jobs.extract_token_transfers_job import ExtractTokenTransfersJob
 from tests.helpers import compare_lines_ignore_order, read_file
 
 RESOURCE_GROUP = 'test_extract_token_transfers_job'

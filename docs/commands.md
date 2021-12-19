@@ -3,9 +3,9 @@
 All the commands accept `-h` parameter for help, e.g.:
 
 ```bash
-> ethereumetl export_blocks_and_transactions -h
+> bscetl export_blocks_and_transactions -h
 
-Usage: ethereumetl export_blocks_and_transactions [OPTIONS]
+Usage: bscetl export_blocks_and_transactions [OPTIONS]
 
   Export blocks and transactions.
 
@@ -30,7 +30,7 @@ For the `--output` parameters the supported types are csv and json. The format t
 #### export_blocks_and_transactions
 
 ```bash
-> ethereumetl export_blocks_and_transactions --start-block 0 --end-block 500000 \
+> bscetl export_blocks_and_transactions --start-block 0 --end-block 500000 \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc \
 --blocks-output blocks.csv --transactions-output transactions.csv
 ```
@@ -47,14 +47,14 @@ The API used in this command is not supported by Infura, so you will need a loca
 If you want to use Infura for exporting ERC20 transfers refer to [extract_token_transfers](#extract_token_transfers)
 
 ```bash
-> ethereumetl export_token_transfers --start-block 0 --end-block 500000 \
+> bscetl export_token_transfers --start-block 0 --end-block 500000 \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc --batch-size 100 --output token_transfers.csv
 ```
 
 Include `--tokens <token1> --tokens <token2>` to filter only certain tokens, e.g.
 
 ```bash
-> ethereumetl export_token_transfers --start-block 0 --end-block 500000 \
+> bscetl export_token_transfers --start-block 0 --end-block 500000 \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc --output token_transfers.csv \
 --tokens 0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0 --tokens 0x06012c8cf97bead5deae237070f9587f8e7a266d
 ```
@@ -69,13 +69,13 @@ First extract transaction hashes from `transactions.csv`
 (Exported with [export_blocks_and_transactions](#export_blocks_and_transactions)):
 
 ```bash
-> ethereumetl extract_csv_column --input transactions.csv --column hash --output transaction_hashes.txt
+> bscetl extract_csv_column --input transactions.csv --column hash --output transaction_hashes.txt
 ```
 
 Then export receipts and logs:
 
 ```bash
-> ethereumetl export_receipts_and_logs --transaction-hashes transaction_hashes.txt \
+> bscetl export_receipts_and_logs --transaction-hashes transaction_hashes.txt \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc --receipts-output receipts.csv --logs-output logs.csv
 ```
 
@@ -95,7 +95,7 @@ First export receipt logs with [export_receipts_and_logs](#export_receipts_and_l
 Then extract transfers from the logs.csv file:
 
 ```bash
-> ethereumetl extract_token_transfers --logs logs.csv --output token_transfers.csv
+> bscetl extract_token_transfers --logs logs.csv --output token_transfers.csv
 ```
 
 You can tune `--batch-size`, `--max-workers` for performance.
@@ -108,13 +108,13 @@ First extract contract addresses from `receipts.csv`
 (Exported with [export_receipts_and_logs](#export_receipts_and_logs)):
 
 ```bash
-> ethereumetl extract_csv_column --input receipts.csv --column contract_address --output contract_addresses.txt
+> bscetl extract_csv_column --input receipts.csv --column contract_address --output contract_addresses.txt
 ```
 
 Then export contracts:
 
 ```bash
-> ethereumetl export_contracts --contract-addresses contract_addresses.txt \
+> bscetl export_contracts --contract-addresses contract_addresses.txt \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc --output contracts.csv
 ```
 
@@ -128,14 +128,14 @@ First extract token addresses from `contracts.json`
 (Exported with [export_contracts](#export_contracts)):
 
 ```bash
-> ethereumetl filter_items -i contracts.json -p "item['is_erc20'] or item['is_erc721']" | \
-ethereumetl extract_field -f address -o token_addresses.txt
+> bscetl filter_items -i contracts.json -p "item['is_erc20'] or item['is_erc721']" | \
+bscetl extract_field -f address -o token_addresses.txt
 ```
 
 Then export ERC20 / ERC721 tokens:
 
 ```bash
-> ethereumetl export_tokens --token-addresses token_addresses.txt \
+> bscetl export_tokens --token-addresses token_addresses.txt \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc --output tokens.csv
 ```
 
@@ -152,7 +152,7 @@ Make sure your node has at least 8GB of memory, or else you will face timeout er
 See [this issue](https://github.com/blockchain-etl/ethereum-etl/issues/137) 
 
 ```bash
-> ethereumetl export_traces --start-block 0 --end-block 500000 \
+> bscetl export_traces --start-block 0 --end-block 500000 \
 --provider-uri file://$HOME/Library/Ethereum/parity.ipc --batch-size 100 --output traces.csv
 ```
 
@@ -169,7 +169,7 @@ so you will need a local Geth archive node (`geth --gcmode archive --syncmode fu
 When using rpc, add `--rpc --rpcapi debug` options.
 
 ```bash
-> ethereumetl export_geth_traces --start-block 0 --end-block 500000 \
+> bscetl export_geth_traces --start-block 0 --end-block 500000 \
 --provider-uri file://$HOME/Library/Ethereum/geth.ipc --batch-size 100 --output geth_traces.json
 ```
 
@@ -178,7 +178,7 @@ You can tune `--batch-size`, `--max-workers` for performance.
 #### extract_geth_traces
 
 ```bash
-> ethereumetl extract_geth_traces --input geth_traces.json --output traces.csv
+> bscetl extract_geth_traces --input geth_traces.json --output traces.csv
 ```
 
 You can tune `--batch-size`, `--max-workers` for performance.
@@ -186,14 +186,14 @@ You can tune `--batch-size`, `--max-workers` for performance.
 #### get_block_range_for_date
 
 ```bash
-> ethereumetl get_block_range_for_date --provider-uri=https://mainnet.infura.io/v3/7aef3f0cd1f64408b163814b22cc643c --date 2018-01-01
+> bscetl get_block_range_for_date --provider-uri=https://mainnet.infura.io/v3/7aef3f0cd1f64408b163814b22cc643c --date 2018-01-01
 4832686,4838611
 ```
 
 #### get_keccak_hash
 
 ```bash
-> ethereumetl get_keccak_hash -i "transfer(address,uint256)"
+> bscetl get_keccak_hash -i "transfer(address,uint256)"
 0xa9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b
 ```
 
@@ -201,7 +201,7 @@ You can tune `--batch-size`, `--max-workers` for performance.
 
 ```bash
 > pip3 install ethereum-etl[streaming]
-> ethereumetl stream --provider-uri https://mainnet.infura.io/v3/7aef3f0cd1f64408b163814b22cc643c --start-block 500000
+> bscetl stream --provider-uri https://mainnet.infura.io/v3/7aef3f0cd1f64408b163814b22cc643c --start-block 500000
 ```
 
 - This command outputs blocks, transactions, logs, token_transfers to the console by default.
@@ -228,13 +228,13 @@ Stream blockchain data continually to Google Pub/Sub:
 
 ```bash
 > export GOOGLE_APPLICATION_CREDENTIALS=/path_to_credentials_file.json
-> ethereumetl stream --start-block 500000 --output projects/<your-project>/topics/crypto_ethereum
+> bscetl stream --start-block 500000 --output projects/<your-project>/topics/crypto_ethereum
 ```
 
 Stream blockchain data to a Postgres database:
 
 ```bash
-ethereumetl stream --start-block 500000 --output postgresql+pg8000://<user>:<password>@<host>:5432/<database>
+bscetl stream --start-block 500000 --output postgresql+pg8000://<user>:<password>@<host>:5432/<database>
 ```
 
 The [schema](https://github.com/blockchain-etl/ethereum-etl-postgres/tree/master/schema) 

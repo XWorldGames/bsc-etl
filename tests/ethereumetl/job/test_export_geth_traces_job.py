@@ -25,9 +25,9 @@ import pytest
 from web3 import Web3
 
 import tests.resources
-from ethereumetl.jobs.export_geth_traces_job import ExportGethTracesJob
-from ethereumetl.jobs.exporters.geth_traces_item_exporter import geth_traces_item_exporter
-from ethereumetl.thread_local_proxy import ThreadLocalProxy
+from bscetl.jobs.export_geth_traces_job import ExportGethTracesJob
+from bscetl.jobs.exporters.geth_traces_item_exporter import geth_traces_item_exporter
+from bscetl.thread_local_proxy import ThreadLocalProxy
 from tests.ethereumetl.job.helpers import get_web3_provider
 from tests.helpers import compare_lines_ignore_order, read_file
 

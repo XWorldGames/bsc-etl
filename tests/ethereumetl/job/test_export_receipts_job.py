@@ -24,9 +24,9 @@
 import pytest
 
 import tests.resources
-from ethereumetl.jobs.export_receipts_job import ExportReceiptsJob
-from ethereumetl.jobs.exporters.receipts_and_logs_item_exporter import receipts_and_logs_item_exporter
-from ethereumetl.thread_local_proxy import ThreadLocalProxy
+from bscetl.jobs.export_receipts_job import ExportReceiptsJob
+from bscetl.jobs.exporters.receipts_and_logs_item_exporter import receipts_and_logs_item_exporter
+from bscetl.thread_local_proxy import ThreadLocalProxy
 from tests.ethereumetl.job.helpers import get_web3_provider
 from tests.helpers import compare_lines_ignore_order, read_file, skip_if_slow_tests_disabled
 

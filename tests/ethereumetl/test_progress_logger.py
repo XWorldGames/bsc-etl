@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-from ethereumetl.progress_logger import ProgressLogger
+from bscetl.progress_logger import ProgressLogger
 
 
 def test_progress_logger():

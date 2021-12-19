@@ -16,7 +16,7 @@ WITH SERDEPROPERTIES (
     'escape.delim' = '\\'
 )
 STORED AS TEXTFILE
-LOCATION 's3://<your_bucket>/ethereumetl/export/logs'
+LOCATION 's3://<your_bucket>/bscetl/export/logs'
 TBLPROPERTIES (
   'skip.header.line.count' = '1'
 );
