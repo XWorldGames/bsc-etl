@@ -20,22 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from datetime import datetime, timezone
-
+from binascii import unhexlify
 from blockchainetl.jobs.exporters.converters.simple_item_converter import SimpleItemConverter
 
 
-class UnixTimestampItemConverter(SimpleItemConverter):
+class BigBinaryItemConverter(SimpleItemConverter):
 
     def convert_field(self, key, value):
-        if key is not None and key.endswith('timestamp'):
-            return to_timestamp(value)
+        if isinstance(value, str) and value.startswith('0x'):
+            return to_big_binary(value)
         else:
             return value
 
 
-def to_timestamp(value):
-    if isinstance(value, int):
-        return datetime.fromtimestamp(value, timezone.utc).strftime('%Y-%m-%d %H:%M:%S+00')
-    else:
-        return value
+def to_big_binary(value):
+    return unhexlify(value[2:])

@@ -1,5 +1,7 @@
 import logging
 
+from web3.middleware import geth_poa_middleware
+
 from blockchainetl.jobs.exporters.console_item_exporter import ConsoleItemExporter
 from blockchainetl.jobs.exporters.in_memory_item_exporter import InMemoryItemExporter
 from ethereumetl.enumeration.entity_type import EntityType
@@ -37,7 +39,9 @@ class EthStreamerAdapter:
         self.item_exporter.open()
 
     def get_current_block_number(self):
-        return int(Web3(self.batch_web3_provider).eth.getBlock("latest").number)
+        web3 = Web3(self.batch_web3_provider)
+        web3.middleware_stack.inject(geth_poa_middleware, layer=0)
+        return int(web3.eth.getBlock("latest").number)
 
     def export_all(self, start_block, end_block):
         # Export blocks and transactions

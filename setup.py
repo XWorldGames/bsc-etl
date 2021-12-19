@@ -42,6 +42,8 @@ setup(
         'ethereum-dasm==0.1.4',
         'base58',
         'requests',
+        'sqlalchemy',
+        'pg8000',
     ],
     extras_require={
         'streaming': [
